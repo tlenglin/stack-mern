@@ -1,3 +1,8 @@
+Create a database folder => `mkdir MERN_DB`
+run mongodb => `mongod -dbpath ./MERN_DB`
+run frontend => `cd frontend && npm install && npm start`
+run backend => `cd backend && npm install && npm start`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

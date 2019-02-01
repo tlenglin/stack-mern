@@ -13,7 +13,6 @@ export default class AuthService {
       method: 'POST',
       body: JSON.stringify(userInfo)
     }).then(res => {
-      console.log(res.user)
       this.setToken(res.token) // Setting the token in localStorage
       return Promise.resolve(res)
     })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Input } from '@material-ui/core'
+import { Button, Input, Paper, Typography, Grid } from '@material-ui/core'
 import AuthService from '../../services/auth.service'
 
 export default class Register extends Component {
@@ -27,6 +27,7 @@ export default class Register extends Component {
     e.preventDefault()
     this.AuthService.login(this.state.email, this.state.password)
       .then(res => {
+        this.props.getProfile()
         this.props.history.replace('/')
       })
       .catch(err => {
@@ -36,21 +37,42 @@ export default class Register extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <Input id="email" placeholder="Email" onChange={this.handleChange} />
-          <Input
-            id="password"
-            placeholder="Password"
-            onChange={this.handleChange}
-            type="password"
-          />
-          <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
-        </form>
-        <Link to="/register">Register</Link>
-      </div>
+      <Grid container justify="center" alignItems="baseline">
+        <Grid item style={{ width: '40%' }}>
+          <Paper style={{ padding: '50px' }}>
+            <form onSubmit={this.handleSubmit}>
+              <Input
+                fullWidth={true}
+                id="email"
+                placeholder="Email"
+                onChange={this.handleChange}
+                style={{ margin: '10px' }}
+              />
+              <br />
+              <Input
+                fullWidth={true}
+                id="password"
+                placeholder="Password"
+                onChange={this.handleChange}
+                type="password"
+                style={{ margin: '10px' }}
+              />
+              <br />
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                style={{ marginTop: '20px', marginBottom: '50px' }}
+              >
+                Submit
+              </Button>
+            </form>
+            <Link to="/register">
+              <Typography variant="body2">Register</Typography>
+            </Link>
+          </Paper>
+        </Grid>
+      </Grid>
     )
   }
 }
