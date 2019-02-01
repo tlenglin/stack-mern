@@ -29,11 +29,13 @@ const createUser = async function(userInfo) {
   if (!unique_key) TE('An email or phone number was not entered.')
 
   if (validator.isEmail(unique_key)) {
+    console.log('err10')
     auth_info.method = 'email'
     userInfo.email = unique_key
     ;[err, user] = await to(User.create(userInfo))
+    console.log('err11')
     if (err) TE('user already exists with that email')
-
+    console.log('err12')
     return user
 
     // }else if(validator.isMobilePhone(unique_key, 'any')){//checks if only phone number was sent
@@ -45,6 +47,7 @@ const createUser = async function(userInfo) {
 
     //     return user;
   } else {
+    console.log('err13')
     TE('A valid email or phone number was not entered.')
   }
 }

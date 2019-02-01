@@ -8,14 +8,18 @@ const create = async function(req, res) {
   console.log(body)
   console.log(body.email)
   if (!body.unique_key && !body.email && !body.phone) {
-    return ReE(res, 'Please enter an email or phone number to register.')
+    console.log('err1')
+    return ReE(res, 'Please enter an email or phone number to register.', 400)
   } else if (!body.password) {
-    return ReE(res, 'Please enter a password to register.')
+    console.log('err2')
+    return ReE(res, 'Please enter a password to register.', 400)
   } else {
+    console.log('err3')
     let err, user
     ;[err, user] = await to(authService.createUser(body))
-
+    console.log('err4')
     if (err) return ReE(res, err, 422)
+    console.log('err5')
     return ReS(
       res,
       {
@@ -78,6 +82,6 @@ const login = async function(req, res) {
   ;[err, user] = await to(authService.authUser(body))
   if (err) return ReE(res, err, 422)
 
-  return ReS(res, { token: user.getJWT(), user: user.toWeb() })
+  return ReS(res, { token: user.getJWT(), user: user.toWeb() }, 200)
 }
 module.exports.login = login
