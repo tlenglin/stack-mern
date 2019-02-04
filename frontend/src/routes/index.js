@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Home from '../components/Home/'
 import Header from '../components/Header'
 import Login from '../components/Authentication/login'
+import Root from '../components/Root'
 import Register from '../components/Authentication/register'
 import AuthService from '../services/auth.service'
 
@@ -45,6 +46,7 @@ export default class Routes extends Component {
           </Grid>
           <Grid item xs={12}>
             <Switch>
+              <Route exact={true} path="/home" component={Home} />
               <Route
                 exact={true}
                 path="/login"
@@ -59,7 +61,7 @@ export default class Routes extends Component {
                   <Register {...props} getProfile={this.getProfile} />
                 )}
               />
-              <Route exact={true} path="/" component={Home} />
+              <Route exact={true} path="/" component={Root} />
             </Switch>
           </Grid>
         </Grid>

@@ -29,7 +29,7 @@ export default class Register extends Component {
     this.AuthService.register(this.state)
       .then(res => {
         this.props.getProfile()
-        this.props.history.replace('/')
+        this.props.history.replace('/home')
       })
       .catch(err => {
         alert(err)
@@ -37,7 +37,7 @@ export default class Register extends Component {
   }
 
   componentWillMount() {
-    if (this.AuthService.loggedIn()) this.props.history.replace('/')
+    if (this.AuthService.loggedIn()) this.props.history.replace('/home')
   }
 
   render() {

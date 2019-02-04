@@ -5,8 +5,9 @@ const passport = require('passport')
 const pe = require('parse-error')
 const cors = require('cors')
 const v1 = require('./routes/v1')
-
 const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
 
 const CONFIG = require('./config/config')
 app.use(logger('dev'))
@@ -57,7 +58,24 @@ process.on('unhandledRejection', error => {
   console.error('Uncaught Error', pe(error))
 })
 
-app.listen(CONFIG.port, err => {
+io.on('connection', function(client) {
+  client.on('register', handleRegister)
+  client.on('join', handleJoin)
+  client.on('leave', handleLeave)
+  client.on('message', handleMessage)
+  client.on('chatrooms', handleGetChatrooms)
+  client.on('availableUsers', handleGetAvailableUsers)
+  client.on('disconnect', function() {
+    console.log('client disconnect...', client.id)
+    handlDisconnect()
+  })
+  client.on('error', function(err) {
+    console.log('received erre from client: ', client.id)
+    console.log(err)
+  })
+})
+
+server.listen(CONFIG.port, err => {
   if (err) console.error(err)
   console.log(`Listening for Requests on port: ${CONFIG.port}`)
 })

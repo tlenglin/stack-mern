@@ -19,29 +19,42 @@ export default class Header extends PureComponent {
         style={{ backgroundColor: '#2196f3', height: '75px' }}
       >
         <Grid item>
-          <Typography variant="h4" style={{ color: 'white' }}>
-            STACK MERN
-          </Typography>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Typography variant="h4" style={{ color: 'white' }}>
+              STACK MERN
+            </Typography>
+          </Link>
         </Grid>
-        <Grid item>
-          {!this.props.profile.user_id ? (
-            <Link to="/login">
+        {this.props.profile.user_id ? (
+          <React.Fragment>
+            <Grid item>
+              <Link to="/home" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary">
+                  HOME
+                </Button>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to="/" style={{ textDecoration: 'none' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleLogout}
+                >
+                  Logout
+                </Button>
+              </Link>
+            </Grid>
+          </React.Fragment>
+        ) : (
+          <Grid item>
+            <Link to="/login" style={{ textDecoration: 'none' }}>
               <Button variant="contained" color="primary">
                 Login
               </Button>
             </Link>
-          ) : (
-            <Link to="/login">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={this.handleLogout}
-              >
-                Logout
-              </Button>
-            </Link>
-          )}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
     )
   }

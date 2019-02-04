@@ -14,7 +14,7 @@ export default class Register extends Component {
   }
 
   componentWillMount() {
-    if (this.AuthService.loggedIn()) this.props.history.replace('/')
+    if (this.AuthService.loggedIn()) this.props.history.replace('/home')
   }
 
   handleChange = e => {
@@ -28,7 +28,7 @@ export default class Register extends Component {
     this.AuthService.login(this.state.email, this.state.password)
       .then(res => {
         this.props.getProfile()
-        this.props.history.replace('/')
+        this.props.history.replace('/home')
       })
       .catch(err => {
         alert(err)

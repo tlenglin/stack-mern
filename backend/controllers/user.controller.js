@@ -15,8 +15,7 @@ const create = async function(req, res) {
     return ReE(res, 'Please enter a password to register.', 400)
   } else {
     console.log('err3')
-    let err, user
-    ;[err, user] = await to(authService.createUser(body))
+    let [err, user] = await to(authService.createUser(body))
     console.log('err4')
     if (err) return ReE(res, err, 422)
     console.log('err5')

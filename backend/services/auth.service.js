@@ -20,7 +20,7 @@ const getUniqueKeyFromBody = function(body) {
 module.exports.getUniqueKeyFromBody = getUniqueKeyFromBody
 
 const createUser = async function(userInfo) {
-  let unique_key, auth_info, err
+  let unique_key, auth_info, err, user
 
   auth_info = {}
   auth_info.status = 'create'
