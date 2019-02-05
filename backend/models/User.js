@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const validate = require('mongoose-validator')
 const { TE, to } = require('../services/util.service')
 const CONFIG = require('../config/config')
+const Chatroom = require('./Chatroom')
 
 let UserSchema = mongoose.Schema(
   {
@@ -26,7 +27,9 @@ let UserSchema = mongoose.Schema(
       ]
     },
     password: { type: String },
-    username: { type: String }
+    username: { type: String },
+    chatroomOwner: [{ type: mongoose.Schema.ObjectId }],
+    chatroomMember: [{ type: mongoose.Schema.ObjectId }]
   },
   { timestamps: true }
 )
@@ -84,6 +87,15 @@ UserSchema.methods.toWeb = function() {
   let json = this.toJSON()
   json.id = this._id //this is for the front end
   return json
+}
+
+UserSchema.methods.Chatrooms = async function() {
+  let err, chatrooms
+  ;[err, chatrooms] = await to(
+    Chatroom.find({ _id: { $in: this.chatroomMember } })
+  )
+  if (err) TE('err getting chatrooms')
+  return chatrooms
 }
 
 let User = (module.exports = mongoose.model('User', UserSchema))

@@ -5,7 +5,7 @@ run backend => `cd backend && npm install && npm start`
 
 tutorials used :
 frontend/auth (HOC withAuth, services) => https://hptechblogs.com/using-json-web-token-react/
-backend/auth (passport + services) => https://hptechblogs.com/using-json-web-token-react/
+backend/auth (passport + services) => https://medium.com/@brianschardt/build-node-mongo-rest-api-2018-jwt-eff0e4f41007
 socket.io => https://itnext.io/building-a-node-js-websocket-chat-app-with-socket-io-and-react-473a0686d1e1
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

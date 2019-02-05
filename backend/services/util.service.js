@@ -11,6 +11,7 @@ module.exports.to = async promise => {
 
 module.exports.ReE = function(res, err, code) {
   // Error Web Response
+  console.log(err)
   if (typeof err == 'object' && typeof err.message != 'undefined') {
     err = err.message
   }

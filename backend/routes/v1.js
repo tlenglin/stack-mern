@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const UserController = require('../controllers/user.controller')
+const ChatroomController = require('../controllers/chatroom.controller')
 
 const custom = require('./../middleware/custom')
 
@@ -36,6 +37,34 @@ router.delete(
 ) // D
 router.post('/users/login', UserController.login)
 
-//********* API DOCUMENTATION **********
+router.post(
+  '/chatroom',
+  passport.authenticate('jwt', { session: false }),
+  ChatroomController.create
+)
+router.get(
+  '/chatroom',
+  passport.authenticate('jwt', { session: false }),
+  ChatroomController.getAll
+)
+router.get('/chatroom/:chatroom_id', custom.chatroom, ChatroomController.get)
+router.put(
+  '/chatroom/:chatroom_id',
+  passport.authenticate('jwt', { session: false }),
+  custom.chatroom,
+  ChatroomController.update
+)
+router.delete(
+  '/chatroom/:chatroom_id',
+  passport.authenticate('jwt', { session: false }),
+  custom.chatroom,
+  ChatroomController.remove
+)
+router.post(
+  '/chatroom/join/:chatroom_id',
+  passport.authenticate('jwt', { session: false }),
+  custom.chatroom,
+  ChatroomController.join
+)
 
 module.exports = router
