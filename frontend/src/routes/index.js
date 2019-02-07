@@ -5,6 +5,7 @@ import Header from '../components/Header'
 import Login from '../components/Authentication/login'
 import Root from '../components/Root'
 import Register from '../components/Authentication/register'
+import Conversation from '../components/Chat/conversation'
 import AuthService from '../services/auth.service'
 
 import Grid from '@material-ui/core/Grid'
@@ -46,6 +47,7 @@ export default class Routes extends Component {
           </Grid>
           <Grid item xs={12}>
             <Switch>
+              <Route path="/chatroom" component={Conversation} />
               <Route exact={true} path="/home" component={Home} />
               <Route
                 exact={true}

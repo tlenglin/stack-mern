@@ -7,8 +7,59 @@ export default class ChatService {
     this.fetch = this.fetch.bind(this) // React binding stuff
   }
 
+  create(roomInfo) {
+    return this.fetch(`${this.domain}/chatroom`, {
+      method: 'POST',
+      body: JSON.stringify(roomInfo)
+    }).then(res => {
+      console.log(res)
+      return Promise.resolve(res)
+    })
+  }
+
+  join(roomInfo) {
+    return this.fetch(`${this.domain}/chatroom/join/${roomInfo.id}`, {
+      method: 'POST',
+      body: JSON.stringify(roomInfo)
+    }).then(res => {
+      console.log(res)
+      return Promise.resolve(res)
+    })
+  }
+
+  createMessage(messageInfo) {
+    return this.fetch(
+      `${this.domain}/chatroom/history/${messageInfo.chatroom}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(messageInfo)
+      }
+    ).then(res => {
+      console.log(res)
+      return Promise.resolve(res)
+    })
+  }
+
   get() {
     return this.fetch(`${this.domain}/chatroom`, {
+      method: 'GET'
+    }).then(res => {
+      console.log(res)
+      return Promise.resolve(res)
+    })
+  }
+
+  getChatroom(chatroomId) {
+    return this.fetch(`${this.domain}/chatroom/${chatroomId}`, {
+      method: 'GET'
+    }).then(res => {
+      console.log(res)
+      return Promise.resolve(res)
+    })
+  }
+
+  getHistory(chatroomId) {
+    return this.fetch(`${this.domain}/chatroom/history/${chatroomId}`, {
       method: 'GET'
     }).then(res => {
       console.log(res)

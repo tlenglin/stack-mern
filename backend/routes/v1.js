@@ -67,4 +67,17 @@ router.post(
   ChatroomController.join
 )
 
+router.get(
+  '/chatroom/history/:chatroom_id',
+  custom.chatroom,
+  ChatroomController.getHistory
+)
+
+// router.post(
+//   '/chatroom/history/:chatroom_id',
+//   passport.authenticate('jwt', { session: false }),
+//   custom.chatroom,
+//   ChatroomController.createMessage
+// )
+
 module.exports = router

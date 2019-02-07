@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import withAuth from '../Authentication/withAuth'
 // import io from 'socket.io-client'
-import ChatroomList from '../Chat/chatroomList'
-// import Chatroom from '../Chat/chatroom'
+import Chatroom from '../Chat/chatroom'
+
 class Home extends Component {
   constructor(domain) {
     super()
@@ -17,8 +17,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <ChatroomList />
-        {/* <Chatroom /> */}
+        <Chatroom history={this.props.history} />
       </div>
     )
   }

@@ -5,8 +5,6 @@ const { to, ReE, ReS } = require('../services/util.service')
 const create = async function(req, res) {
   res.setHeader('Content-Type', 'application/json')
   const body = req.body
-  console.log(body)
-  console.log(body.email)
   if (!body.unique_key && !body.email && !body.phone) {
     console.log('err1')
     return ReE(res, 'Please enter an email or phone number to register.', 400)
@@ -47,8 +45,6 @@ const update = async function(req, res) {
   user.set(data)
   ;[err, user] = await to(user.save())
   if (err) {
-    console.log(err, user)
-
     if (err.message.includes('E11000')) {
       if (err.message.includes('phone')) {
         err = 'This phone number is already in use'

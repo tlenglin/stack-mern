@@ -8,7 +8,7 @@ const v1 = require('./routes/v1')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-
+const socketService = require('./services/socket.service')
 const CONFIG = require('./config/config')
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -58,19 +58,25 @@ process.on('unhandledRejection', error => {
   console.error('Uncaught Error', pe(error))
 })
 
-io.on('connection', function(client) {
-  client.on('register', handleRegister)
-  client.on('join', handleJoin)
-  client.on('leave', handleLeave)
-  client.on('message', handleMessage)
-  client.on('chatrooms', handleGetChatrooms)
-  client.on('availableUsers', handleGetAvailableUsers)
-  client.on('disconnect', function() {
-    console.log('client disconnect...', client.id)
-    handlDisconnect()
+io.on('connection', function(socket) {
+  console.log('user connected')
+  io.clients((error, clients) => {
+    if (error) throw error
+    console.log(clients)
   })
-  client.on('error', function(err) {
-    console.log('received erre from client: ', client.id)
+  socket.on('room', function(data) {
+    socketService.handleRoom(io, socket, data)
+  })
+  socket.on('message', function(data) {
+    socketService.createMessage(io, socket, data)
+  })
+  // socket.on('availableUsers', handleGetAvailableUsers)
+  socket.on('disconnect', function(reason) {
+    console.log('socket disconnect...', socket.id)
+    console.log(reason)
+  })
+  socket.on('error', function(err) {
+    console.log('received error from socket: ', socket.id)
     console.log(err)
   })
 })

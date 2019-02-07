@@ -77,9 +77,13 @@ UserSchema.methods.getJWT = function() {
   let expiration_time = parseInt(CONFIG.jwt_expiration)
   return (
     'Bearer ' +
-    jwt.sign({ user_id: this._id }, CONFIG.jwt_encryption, {
-      expiresIn: expiration_time
-    })
+    jwt.sign(
+      { user_id: this._id, username: this.username },
+      CONFIG.jwt_encryption,
+      {
+        expiresIn: expiration_time
+      }
+    )
   )
 }
 
@@ -92,7 +96,8 @@ UserSchema.methods.toWeb = function() {
 UserSchema.methods.Chatrooms = async function() {
   let err, chatrooms
   ;[err, chatrooms] = await to(
-    Chatroom.find({ _id: { $in: this.chatroomMember } })
+    // Chatroom.find({ _id: { $in: this.chatroomMember } })
+    Chatroom.find()
   )
   if (err) TE('err getting chatrooms')
   return chatrooms

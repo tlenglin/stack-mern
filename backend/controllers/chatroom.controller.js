@@ -25,7 +25,6 @@ const getAll = async function(req, res) {
   res.setHeader('Content-Type', 'application/json')
   let err, chatrooms, user
   user = req.user
-  console.log(user)
   ;[err, chatrooms] = await to(user.Chatrooms())
   if (err) return ReE(res, err, 422)
   let chatrooms_json = []
@@ -94,3 +93,41 @@ const join = async function(req, res) {
   })
 }
 module.exports.join = join
+
+const getHistory = async function(req, res) {
+  res.setHeader('Content-Type', 'application/json')
+  let err, chatroom
+  chatroom = req.chatroom
+  ;[err, messages] = await to(chatroom.Messages())
+  if (err) return ReE(res, err, 422)
+  let messages_json = []
+  for (let i in messages) {
+    let message = messages[i]
+    messages_json.push(message.toWeb())
+  }
+  return ReS(res, { history: messages_json })
+}
+module.exports.getHistory = getHistory
+
+const createMessage = async function(req, res) {
+  let err, user, chatroom, message, data
+  data = req.body
+  user = req.user
+  chatroom = req.chatroom
+  message = {
+    creator: { userId: user._id, username: user.username },
+    content: data.content,
+    chatroom: chatroom._id
+  }
+  ;[err, message] = await to(chatroomService.createMessage(message))
+  if (err) return ReE(res, err, 422)
+  return ReS(
+    res,
+    {
+      message: 'Successfully created new message.',
+      message: message.toWeb()
+    },
+    201
+  )
+}
+module.exports.createMessage = createMessage

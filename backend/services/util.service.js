@@ -36,6 +36,7 @@ module.exports.ReS = function(res, data, code) {
 
 module.exports.TE = TE = function(err_message, log) {
   // TE stands for Throw Error
+  console.log(err_message)
   if (log === true) {
     console.error(err_message)
   }

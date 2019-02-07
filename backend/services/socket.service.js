@@ -1,3 +1,6 @@
+const chatroomService = require('./chatroom.service')
+const { to, ReE, ReS } = require('./util.service')
+
 const handleRegister = function(userName, callback) {
   if (!clientManager.isUserAvailable(userNAme))
     return callback('user is not available')
@@ -83,3 +86,35 @@ const handleDisconnect = function() {
 }
 
 module.exports.handleDisconnect = handleDisconnect
+
+const handleRoom = async function(io, socket, data) {
+  let err, message, content
+  console.log(`${data.user.username} joined room : ${data.room.roomId}`)
+  socket.join(data.room.roomId)
+  content = `${data.user.username} joined the room ${data.room.roomId}`
+  message = setMessage(data.user, data.room, content)
+  ;[err, message] = await to(chatroomService.createMessage(message))
+  if (err) socket.emit('error', err)
+  else io.sockets.in(data.room.roomId).emit('updatechat', message)
+}
+module.exports.handleRoom = handleRoom
+
+const setMessage = function(user, room, content) {
+  const message = {
+    creator: { userId: user.userId, username: user.username },
+    content,
+    chatroom: room.roomId
+  }
+  return message
+}
+
+const createMessage = async function(io, socket, data) {
+  let err, message
+
+  message = setMessage(data.user, data.room, data.content)
+  ;[err, message] = await to(chatroomService.createMessage(message))
+  if (err) socket.emit('error', err)
+  else io.sockets.in(data.room.roomId).emit('updatechat', message)
+}
+
+module.exports.createMessage = createMessage

@@ -11,7 +11,7 @@ export default class ChatroomCard extends Component {
   render() {
     return (
       <div>
-        {console.log(this)}
+        {/* {console.log(this.props)} */}
         <Card>
           <CardContent>
             <Typography variant="h5">{this.props.chatroom.name}</Typography>
@@ -21,7 +21,9 @@ export default class ChatroomCard extends Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button>Join</Button>
+            <Button onClick={() => this.props.joinRoom(this.props.chatroom)}>
+              Join
+            </Button>
           </CardActions>
         </Card>
       </div>
